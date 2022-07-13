@@ -11,9 +11,8 @@ class Stack:
     def pop(self):
         if self.size == 0:
             return 'error'
-        else:
-            self.size -= 1
-            return self.results.pop()
+        self.size -= 1
+        return self.results.pop()
 
 
 if __name__ == '__main__':

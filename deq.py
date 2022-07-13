@@ -1,4 +1,4 @@
-# ID 69379504
+# ID 69382455
 class Deck:
     def __init__(self, max_size: int):
         self.queue = [None] * max_size
@@ -19,12 +19,11 @@ class Deck:
             return 'error'
 
     def push_front(self, x: int):
-        if self.size != self.max_size:
-            self.queue[self.head - 1] = x
-            self.head = (self.head - 1) % self.max_size
-            self.size += 1
-        else:
+        if self.size == self.max_size:
             return 'error'
+        self.queue[self.head - 1] = x
+        self.head = (self.head - 1) % self.max_size
+        self.size += 1
 
     def pop_back(self):
         if self.is_empty():
@@ -49,23 +48,23 @@ def main():
     commands_length = int(input())
     queue_length = int(input())
     queue = Deck(queue_length)
+    operations = {
+        'push_back': queue.push_back,
+        'push_front': queue.push_front,
+        'pop_front': queue.pop_front,
+        'pop_back': queue.pop_back
+    }
     for i in range(commands_length):
         command = input()
         operation, *value = command.split()
         if value:
-            if operation == 'push_back':
-                a = queue.push_back(int(*value))
-                if a is not None:
-                    print(a)
-            if operation == 'push_front':
-                a = queue.push_front(int(*value))
-                if a is not None:
-                    print(a)
+            operand = operations.get(operation)
+            a = operand(int(*value))
+            if a is not None:
+                print(a)
         else:
-            if operation == 'pop_front':
-                print(queue.pop_front())
-            if operation == 'pop_back':
-                print(queue.pop_back())
+            operand = operations.get(operation)
+            print(operand())
 
 
 if __name__ == '__main__':
