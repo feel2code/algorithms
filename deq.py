@@ -1,4 +1,4 @@
-# ID 69382455
+# ID 69390684
 class Deck:
     def __init__(self, max_size: int):
         self.queue = [None] * max_size
@@ -11,12 +11,11 @@ class Deck:
         return self.size == 0
 
     def push_back(self, x: int):
-        if self.size != self.max_size:
-            self.queue[self.tail] = x
-            self.tail = (self.tail + 1) % self.max_size
-            self.size += 1
-        else:
+        if self.size == self.max_size:
             return 'error'
+        self.queue[self.tail] = x
+        self.tail = (self.tail + 1) % self.max_size
+        self.size += 1
 
     def push_front(self, x: int):
         if self.size == self.max_size:
