@@ -1,6 +1,6 @@
 # ID 69410269
 def partition(participants, left, right):
-    pivot = (participants[left])
+    pivot = participants[left]
     i = left + 1
     j = right - 1
     while True:
@@ -8,7 +8,7 @@ def partition(participants, left, right):
             j -= 1
         elif i <= j and participants[i] < pivot:
             i += 1
-        elif (participants[j] > pivot) or (participants[i] < pivot):
+        elif participants[j] > pivot or participants[i] < pivot:
             continue
         if i <= j:
             participants[i], participants[j] = participants[j], participants[i]
@@ -21,7 +21,7 @@ def quick_sort(participants, left=None, right=None):
     if left is None and right is None:
         left = 0
         right = len(participants)
-    if (right - left) > 1:
+    if right - left > 1:
         p = partition(participants, left, right)
         quick_sort(participants, left, p)
         quick_sort(participants, p + 1, right)
@@ -58,12 +58,22 @@ class Participant:
 
 
 if __name__ == '__main__':
-    reader = open('input.txt', 'r')
-    participants_count = int(reader.readline())
-    participants = list()
-    for _ in range(participants_count):
-        name, tasks, fee = reader.readline().strip().split(' ')
-        participants.append(Participant(name, int(tasks), int(fee)))
-    reader.close()
-    quick_sort(participants)
-    print(*participants, sep='\n')
+    try:
+        reader = open('input.txt', 'r')
+        try:
+            participants_count = int(reader.readline())
+            if participants_count not in range(1, 100001):
+                raise 'Participants count must be in range: 1 - 100 000'
+            participants = list()
+            for _ in range(participants_count):
+                name, tasks, fee = reader.readline().strip().split(' ')
+                if len(name) > 20:
+                    raise 'Participant name should be max 20 length'
+                participants.append(Participant(name, int(tasks), int(fee)))
+            reader.close()
+            quick_sort(participants)
+            print(*participants, sep='\n')
+        except:
+            print('Not integer was got in first parameter.')
+    except:
+        print('Opening file failed.')
